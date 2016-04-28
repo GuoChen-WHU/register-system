@@ -1,22 +1,23 @@
 ﻿<html>
 <head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf8" >
   <title>感谢报名</title>
 </head>
 <body>
 <?php
 //	var_dump($_POST);
-	$stuName = $_POST["student-name"];
-	$stuId = $_POST["student-id"];
-	$phoNum = $_POST["phone-num"];
+	$stuName = trim($_POST["student-name"]);
+	$stuId = trim($_POST["student-id"]);
+	$phoNum = trim($_POST["phone-num"]);
 	@ $issm = $_POST["is-single-man"];
 	@ $issw = $_POST["is-single-woman"];
 	@ $isdm = $_POST["is-double-man"];
 	@ $isdw = $_POST["is-double-woman"];
 	@ $ismix = $_POST["is-mix"];
-	$parName = $_POST["partner-name"];
-	$parId = $_POST["partner-id"];
-	$mixParName = $_POST["mix-partner-name"];
-	$mixParId = $_POST["mix-partner-id"];
+	$parName = trim($_POST["partner-name"]);
+	$parId = trim($_POST["partner-id"]);
+	$mixParName = trim($_POST["mix-partner-name"]);
+	$mixParId = trim($_POST["mix-partner-id"]);
 	
 	try {
 		// check forms filled in
@@ -64,26 +65,25 @@
 		echo "</ul>";
 		
 	} catch ( Exception $e ) {
-		echo "An error occurred! ";
 		echo $e->getMessage();
 		exit;
 	}
 	
 	function filled_out() {
-		$stuName = $_POST["student-name"];
-		$stuId = $_POST["student-id"];
-		$phoNum = $_POST["phone-num"];
+		$stuName = trim($_POST["student-name"]);
+		$stuId = trim($_POST["student-id"]);
+		$phoNum = trim($_POST["phone-num"]);
 		@ $issm = $_POST["is-single-man"];
 		@ $issw = $_POST["is-single-woman"];
 		@ $isdm = $_POST["is-double-man"];
 		@ $isdw = $_POST["is-double-woman"];
 		@ $ismix = $_POST["is-mix"];
-		$parName = $_POST["partner-name"];
-		$parId = $_POST["partner-id"];
-		$mixParName = $_POST["mix-partner-name"];
-		$mixParId = $_POST["mix-partner-id"];
+		$parName = trim($_POST["partner-name"]);
+		$parId = trim($_POST["partner-id"]);
+		$mixParName = trim($_POST["mix-partner-name"]);
+		$mixParId = trim($_POST["mix-partner-id"]);
 		//these three is necessary
-		if ( !isset($stuName) || !isset($stuId) || !isset($phoNum) ) {
+		if ( !$stuName || !$stuId || !$phoNum ) {
 			return false;
 		}
 		//one of the five types is necessary
@@ -93,13 +93,13 @@
 		}
 		//once applied double, partner info are necessary
 		if ( isset($isdm) || isset($isdw) ) {
-			if ( !isset($parName) || !isset($parId) ) {
+			if ( !$parName || !$parId ) {
 				return false;
 			}
 		}
 		//once applied mix, mix partner info are necessary
 		if ( isset($ismix) ) {
-			if ( !isset($mixParName) || !isset($mixParId) ) {
+			if ( !$mixParName || !$mixParId ) {
 				return false;
 			}
 		}
@@ -125,19 +125,21 @@
 	}
 	
 	function register() {
-		$stuName = $_POST["student-name"];
-		$stuId = $_POST["student-id"];
-		$phoNum = $_POST["phone-num"];
+		$stuName = trim($_POST["student-name"]);
+		$stuId = trim($_POST["student-id"]);
+		$phoNum = trim($_POST["phone-num"]);
 		@ $issm = $_POST["is-single-man"];
 		@ $issw = $_POST["is-single-woman"];
 		@ $isdm = $_POST["is-double-man"];
 		@ $isdw = $_POST["is-double-woman"];
 		@ $ismix = $_POST["is-mix"];
-		$parName = $_POST["partner-name"];
-		$parId = $_POST["partner-id"];
-		$mixParName = $_POST["mix-partner-name"];
-		$mixParId = $_POST["mix-partner-id"];
-		$db = new mysqli('localhost', 'badminapper', 'badminton', 'badminton_app');
+		$parName = trim($_POST["partner-name"]);
+		$parId = trim($_POST["partner-id"]);
+		$mixParName = trim($_POST["mix-partner-name"]);
+		$mixParId = trim($_POST["mix-partner-id"]);
+		
+		$db = new mysqli('localhost', 'applyAccount', 'applyPassword', 'BadmintonApplication');
+		$db->query('set names utf8');
 		try {
 			if (mysqli_connect_error()) {
 				var_dump(mysqli_connect_error());
@@ -157,48 +159,46 @@
 			if ( isset($isdm) ) {
 				$check = "select * from man_double where firstId = $stuId or secondId = $stuId or firstId = $parId or secondId = $parId limit 1";
 				$result = $db->query($check);
-				var_dump($result);
-				if ( mysqli_num_rows($result) ) {
-					throw new Exception('Error: 你或你的搭档已经报名参加过男双项目了！');
-				} else {
+				if ( $result == false || mysqli_num_rows($result) == 0 ) {
 					$insertDM = 'insert into man_double values("'.$stuId.'", "'.$parId.'")';
 					$db->query($insertDM);
 					$insertPartner = 'insert ignore into player values("'.$parId.'", "'.$parName.'", "")';
 					$db->query($insertPartner);
+				} else {
+					throw new Exception('Error: 你或你的搭档已经报名参加过男双项目了！');
 				}
 			}
 	
 			if ( isset($isdw) ) {
 				$check = "select * from woman_double where firstId = $stuId or secondId = $stuId or firstId = $parId or secondId = $parId limit 1";
 				$result = $db->query($check);
-				if ( mysqli_num_rows($result) ) {
-					throw new Exception('Error: 你或你的搭档已经报名参加过女双项目了！');
-				} else {
+				if ( $result == false || mysqli_num_rows($result) == 0 ) {
 					$insertDW = 'insert into woman_double values("'.$stuId.'", "'.$parId.'")';
 					$db->query($insertDW);
 					$insertPartner = 'insert ignore into player values("'.$parId.'", "'.$parName.'", "")';
 					$db->query($insertPartner);
+				} else {
+					throw new Exception('Error: 你或你的搭档已经报名参加过女双项目了！');
 				}					
 			}
 			
 			if ( isset($ismix) ) {
 				$check = "select * from mix_double where firstId = $stuId or secondId = $stuId or firstId = $parId or secondId = $parId limit 1";
 				$result = $db->query($check);
-				if ( mysqli_num_rows($result) ) {
-					throw new Exception('Error: 你或你的搭档已经报名参加过混双项目了！');
-				} else {
+				if ( $result == false || mysqli_num_rows($result) == 0 ) {
 					$insertMix = 'insert into mix_double values("'.$stuId.'", "'.$mixParId.'")';
 					$db->query($insertMix);
 					$insertMixPartner = 'insert ignore into player values("'.$mixParId.'", "'.$mixParName.'", "")';
 					$db->query($insertMixPartner);
+				} else {
+					throw new Exception('Error: 你或你的搭档已经报名参加过混双项目了！');
 				}
 			}
-
+			
 			$insertPlayer = 'replace into player values("'.$stuId.'", "'.$stuName.'", "'.$phoNum.'")';
 			$db->query($insertPlayer);
-						
+			$db->close();
 		} catch ( Exception $e ) {
-			echo "An error occurred! ";
 			echo $e->getMessage();
 			exit;
 		} 

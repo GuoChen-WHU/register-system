@@ -10,6 +10,12 @@
 		popup("form_referee.html");
 		return false;
 	});
+	
+	var confirmApplyButton = document.getElementById("confirmApply");
+	confirmApplyButton.addEventListener("click", function() {
+		popup("confirm_apply.html");
+		return false;
+	});
 }
 
 function popup(winURL) {

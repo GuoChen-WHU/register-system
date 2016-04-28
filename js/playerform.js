@@ -27,7 +27,7 @@
 	playerForm.onsubmit = function() {
 		var typeSelected = issm.checked || issw.checked || isdm.checked || isdw.checked || ismix.checked;
 		if (typeSelected == false) {
-			alert("请选择至少一个参赛项目。");CJC50IDC
+			alert("请选择至少一个参赛项目。");
 			return false;
 		}
 		if (!this.checkValidity()) {
@@ -41,40 +41,63 @@
 			return false;
 		}
 		
-		return true;
-	};
-
-	function setRelevant(check, form) {
-		check.addEventListener("click", function() {
-			if (this.checked == false) {
-				form.setAttribute("hidden", "hidden");
-				form.removeAttribute("required");
-				clearInputs(form);
-			} else {
-				form.removeAttribute("hidden");
-				form.setAttribute("required", "required");
-			}
-		}, false);
-	}
-	
-	function clearInputs(form) {
-		var inputs = form.getElementsByTagName("input");
-		for (var i = 0; i < inputs.length; i++)
-		{
-			inputs[i].value = "";
+		var confirmInfo = "你的报名信息如下：\r\n姓名： " + inputs[0].value + "\r\n学号： " + inputs[1].value
+											+ "\r\n手机号： " + inputs[2].value + "\r\n报名项目：\r\n";
+		if ( issm.checked ) {
+			confirmInfo += "  **男单\r\n";
 		}
+		if ( issw.checked ) {
+			confirmInfo += "  **女单\r\n";
+		}
+		if ( isdm.checked ) {
+			confirmInfo += "  **男双 搭档： " + inputs[8].value + "\r\n";
+		}
+		if ( isdw.checked ) {
+			confirmInfo += "  **女双 搭档： " + inputs[8].value + "\r\n";
+		}
+		if ( ismix.checked ) {
+			confirmInfo += "  **混双 搭档： " + inputs[10].value + "\r\n";
+		}
+		confirmInfo += "请仔细核对后点击确认提交，如需修改点击取消返回";
+		
+		if ( confirm( confirmInfo ) ) {
+			return true;
+		} else {
+			return false;
+		}
+	};
+}
+
+function setRelevant(check, form) {
+	check.addEventListener("click", function() {
+		if (this.checked == false) {
+			form.setAttribute("hidden", "hidden");
+			form.removeAttribute("required");
+			clearInputs(form);
+		} else {
+			form.removeAttribute("hidden");
+			form.setAttribute("required", "required");
+		}
+	}, false);
+}
+
+function clearInputs(form) {
+	var inputs = form.getElementsByTagName("input");
+	for (var i = 0; i < inputs.length; i++)
+	{
+		inputs[i].value = "";
 	}
-	
-	function singleCheck(firstCheck, secondCheck) {
-		firstCheck.addEventListener("click", function() {
-			if ( ( firstCheck.checked == true ) && ( secondCheck.checked == true ) ) {
-				secondCheck.click();
-			}
-		}, false);
-		secondCheck.addEventListener("click", function() {
-			if ( ( firstCheck.checked == true ) && ( secondCheck.checked == true ) ) {
-				firstCheck.click();
-			}
-		}, false);
-	}
+}
+
+function singleCheck(firstCheck, secondCheck) {
+	firstCheck.addEventListener("click", function() {
+		if ( ( firstCheck.checked == true ) && ( secondCheck.checked == true ) ) {
+			secondCheck.click();
+		}
+	}, false);
+	secondCheck.addEventListener("click", function() {
+		if ( ( firstCheck.checked == true ) && ( secondCheck.checked == true ) ) {
+			firstCheck.click();
+		}
+	}, false);
 }

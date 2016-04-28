@@ -7,62 +7,70 @@
 	<link rel="stylesheet" href="css/popup.css">
 </head>
 <body>
-    <div id="header">
-        
-    </div>
-    <div id="content">
         
 <div class="page-outer-wrapper">
   <div class="page-inner-wrapper">
-    <div data-id="#popup_register" class="page">
-        <form id="popup-player-form" name="popup-player-form" method="post" target="_top" action="php/newplayer.php" autocomplete="on">
-            <h2>请填写报名信息</h2>
-            <fieldset>
-                <div class="field-tips"></div>
-                <div class="field">
-                    <input name="student-name" placeholder="姓名" autocomplete="on" type="text" required>
-                </div>
-                <div class="field">
-                    <input name="student-id" placeholder="学号" pattern="^201[0-9][1|2][0|8]2130\d{3}$" title="请输入有效的学号" autocomplete="on" type="text" required>
-                </div>
-                <div class="field">
-                    <input name="phone-num" placeholder="手机号" pattern="^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0-9])\d{8}$" title="请输入有效的手机号" autocomplete="on" type="text" required>
-                </div>
-								<div class="select">
-										<h2>选择报名类别</h2>
-										<label><input name="is-single-man"  id="single-man" type="checkbox" />男单 </label>
-										<label><input name="is-single-woman" id="single-woman"  type="checkbox" />女单 </label> 
-										<label><input name="is-double-man" id="double-man" type="checkbox" />男双 </label> 
-										<label><input name="is-double-woman"  id="double-woman" type="checkbox" />女双 </label> 
-										<label><input name="is-mix" id="mix" type="checkbox" />混双 </label> 
-								</div>
-								<div id="partner-info" hidden="hidden">
-									<div class="field">
-										<input name="partner-name" type="text" placeholder="双打搭档姓名" >
-									</div>
-									<div class="field">
-										<input name="partner-id" type="text" placeholder="双打搭档学号" pattern="^201[0-9][1|2][0|8]2130\d{3}$" title="请输入有效的学号" >
-									</div>
-								</div>
-								<div id="mix-partner-info" hidden="hidden">
-									<div class="field">
-										<input name="mix-partner-name" type="text" placeholder="混双搭档姓名" >
-									</div>
-									<div class="field">
-										<input name="mix-partner-id" type="text" placeholder="混双搭档学号" pattern="^201[0-9][1|2][0|8]2130\d{3}$" title="请输入有效的学号" >
-									</div>
-								</div>
-								<div class="field">
-                    <input class="btn btn-sns" value="提交" type="submit">
-                </div>
-            </fieldset>
-        </form>
-    </div>
+		<form id="popup-player-form" name="popup-player-form" method="post" target="_top" action="php/newplayer.php" autocomplete="on">
+				<h2>请填写报名信息</h2>
+				<fieldset>
+					<div class="field">
+							<input name="student-name" placeholder="姓名" autocomplete="on" type="text" required>
+					</div>
+					<div class="field">
+							<input name="student-id" placeholder="学号" pattern="^201[0-9][1|2][0|8]2130\d{3}$" title="请输入有效的学号" autocomplete="on" type="text" required>
+					</div>
+					<div class="field">
+							<input name="phone-num" placeholder="手机号" pattern="^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0-9])\d{8}$" title="请输入有效的手机号" autocomplete="on" type="text" required>
+					</div>
+					<div class="select">
+							<div class="squaredOne">
+								<input name="is-single-man"  id="single-man" type="checkbox" />
+								<label for="single-man"></label>
+							</div>
+							<label>男单</label>
+							<div class="squaredOne">
+								<input name="is-single-woman" id="single-woman"  type="checkbox" />
+								<label for="single-woman"></label>
+							</div>
+							<label>女单</label> 
+							<div class="squaredOne">
+								<input name="is-double-man" id="double-man" type="checkbox" />
+								<label for="double-man"></label>
+							</div>
+							<label>男双</label> 
+							<div class="squaredOne">
+								<input name="is-double-woman"  id="double-woman" type="checkbox" />
+								<label for="double-woman"></label>
+							</div>
+							<label>女双</label> 
+							<div class="squaredOne">
+								<input name="is-mix" id="mix" type="checkbox" />
+								<label for="mix"></label>
+							</div>
+							<label>混双</label> 
+					</div>
+					<div id="partner-info" hidden="hidden">
+						<div class="field">
+							<input name="partner-name" type="text" placeholder="双打搭档姓名" >
+						</div>
+						<div class="field">
+							<input name="partner-id" type="text" placeholder="双打搭档学号" pattern="^201[0-9][1|2][0|8]2130\d{3}$" title="请输入有效的学号" >
+						</div>
+					</div>
+					<div id="mix-partner-info" hidden="hidden">
+						<div class="field">
+							<input name="mix-partner-name" type="text" placeholder="混双搭档姓名" >
+						</div>
+						<div class="field">
+							<input name="mix-partner-id" type="text" placeholder="混双搭档学号" pattern="^201[0-9][1|2][0|8]2130\d{3}$" title="请输入有效的学号" >
+						</div>
+					</div>
+					<div class="field">
+							<input class="btn btn-sns" value="提交" type="submit">
+					</div>
+			</fieldset>
+		</form>
   </div>
 </div>
-
-    </div>
-    <div id="footer">
-        
-    </div>
-</body></html>
+</body>
+</html>
