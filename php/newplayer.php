@@ -5,7 +5,8 @@
 </head>
 <body>
 <?php
-//	var_dump($_POST);
+  require('dohtml.php');
+
 	$stuName = trim($_POST["student-name"]);
 	$stuId = trim($_POST["student-id"]);
 	$phoNum = trim($_POST["phone-num"]);
@@ -45,7 +46,7 @@
 		}
 		
 		register();
-		echo "<h1>报名成功</h1>";
+		doHeader("报名成功");
 		echo "<p>$stuName 同学, 学号 $stuId, 手机号 $phoNum, 报名参加了以下项目：</p><ul>";
 		if ( isset($issm) ) {
 			echo "<li>男单</li>";
@@ -63,9 +64,12 @@
 			echo "<li>混双  搭档：$mixParName</li>";
 		}
 		echo "</ul>";
+		doFooter();
 		
 	} catch ( Exception $e ) {
-		echo $e->getMessage();
+		doHeader("出错啦");
+		echo "<p>".$e->getMessage()."</p>";
+		doFooter();
 		exit;
 	}
 	
@@ -165,7 +169,7 @@
 					$insertPartner = 'insert ignore into player values("'.$parId.'", "'.$parName.'", "")';
 					$db->query($insertPartner);
 				} else {
-					throw new Exception('Error: 你或你的搭档已经报名参加过男双项目了！');
+					throw new Exception('你或你的搭档已经报名参加过男双项目了！');
 				}
 			}
 	
@@ -178,12 +182,12 @@
 					$insertPartner = 'insert ignore into player values("'.$parId.'", "'.$parName.'", "")';
 					$db->query($insertPartner);
 				} else {
-					throw new Exception('Error: 你或你的搭档已经报名参加过女双项目了！');
+					throw new Exception('你或你的搭档已经报名参加过女双项目了！');
 				}					
 			}
 			
 			if ( isset($ismix) ) {
-				$check = "select * from mix_double where firstId = $stuId or secondId = $stuId or firstId = $parId or secondId = $parId limit 1";
+				$check = "select * from mix_double where firstId = $stuId or secondId = $stuId or firstId = $mixParId or secondId = $mixParId limit 1";
 				$result = $db->query($check);
 				if ( $result == false || mysqli_num_rows($result) == 0 ) {
 					$insertMix = 'insert into mix_double values("'.$stuId.'", "'.$mixParId.'")';
@@ -191,7 +195,7 @@
 					$insertMixPartner = 'insert ignore into player values("'.$mixParId.'", "'.$mixParName.'", "")';
 					$db->query($insertMixPartner);
 				} else {
-					throw new Exception('Error: 你或你的搭档已经报名参加过混双项目了！');
+					throw new Exception('你或你的搭档已经报名参加过混双项目了！');
 				}
 			}
 			
@@ -199,7 +203,9 @@
 			$db->query($insertPlayer);
 			$db->close();
 		} catch ( Exception $e ) {
-			echo $e->getMessage();
+			doHeader("出错啦");
+			echo "<p>".$e->getMessage()."</p>";
+			doFooter();
 			exit;
 		} 
 	}

@@ -16,6 +16,11 @@
 		popup("confirm_apply.html");
 		return false;
 	});
+	
+	var scheduleButton = document.getElementById("schedule");
+	scheduleButton.addEventListener("click", function() {
+		window.open("schedule.html");
+	})
 }
 
 function popup(winURL) {

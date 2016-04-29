@@ -5,6 +5,8 @@
 </head>
 <body>
 <?php
+  require('dohtml.php');
+
 	$DOCUMENT_ROOT = $_SERVER["DOCUMENT_ROOT"];
 	$stuName = trim($_POST["student-name"]);
 	$stuId = trim($_POST["student-id"]);
@@ -24,8 +26,9 @@
 		if ( $item['man_single'] == false && $item['man_double'] == false 
 			&& $item['woman_single'] == false && $item['woman_double'] == false
 			&& $item['mix_double'] == false && $item['referee'] == false) {
-				echo "<p>你还没有报名参与任何项目，<a href=\"$DOCUMENT_ROOT/BadmintonApplication/form_player.html\">现在报名参赛</a></p>.";
+				throw new Exception("你还没有报名参与任何项目，<a href=\"$DOCUMENT_ROOT/BadmintonApplication/form_player.html\">现在报名参赛</a>.");
 		} else {
+			doHeader("查询结果");
 			echo "<p>你报名参与了以下项目：</p><ul>";
 			if ( $item['man_single'] ) {
 				echo "<li>男单</li>";
@@ -36,7 +39,7 @@
 			if ( $item['woman_single'] ) {
 				echo "<li>女单</li>";
 			}
-			if ( $item['woman_single'] ) {
+			if ( $item['woman_double'] ) {
 				echo "<li>女双</li>";
 			}
 			if ( $item['mix_double'] ) {
@@ -46,10 +49,13 @@
 				echo "<li>裁判员</li>";
 			}
 			echo "</ul>";
+			doFooter();
 		}
 		
 	} catch ( Exception $e ) {
+		doHeader("出错啦");
 		echo $e->getMessage();
+		doFooter();
 		exit;
 	}
 	
@@ -78,11 +84,12 @@
 		$db->query('set names utf8');
 		try {
 			if (mysqli_connect_error()) {
-				var_dump(mysqli_connect_error());
 				throw new Exception('Error: Could not connect to database. Please try again later.');
 			}
 		} catch ( Exception $e ) {
+			doHeader("出错啦");
 			echo $e->getMessage();
+			doFooter();
 			exit;
 		}
 		
@@ -90,11 +97,11 @@
 		$competitionItem = array( 'man_single'=>false, 'man_double'=>false, 
 			'woman_single'=>false, 'woman_double'=>false, 'mix_double'=>false, 'referee'=>false);
 		
-		//player
 		$isPlayer = "select * from player where id = $stuId limit 1";
 		$resultIsP = $db->query($isPlayer);
 		$isReferee = "select * from referee where id = $stuId limit 1";
 		$resultIsR = $db->query($isReferee);
+		//player
 		if ( mysqli_num_rows($resultIsP) ) {
 			
 			$playerItem = "select * from player_engaged_item where id = $stuId limit 1";
@@ -118,43 +125,12 @@
 				}
 			}
 			$resultItem->close();
-/*			$hassm = "select * from man_single where id = $stuId limit 1";
-			$result = $db->query($hassm);
-			if ( mysqli_num_rows($result) ) {
-				$competitionItem['man_single'] = true;
-				$result->close();
-			}
-			$hasdm = "select * from man_double where firstId = $stuId or secondId = $stuId limit 1";
-			$result = $db->query($hasdm);
-			if ( mysqli_num_rows($result) ) {
-				$competitionItem['man_double'] = true;
-				$result->close();
-			}
-			$hassw = "select * from woman_single where id = $stuId limit 1";
-			$result = $db->query($hassw);
-			if ( mysqli_num_rows($result) ) {
-				$competitionItem['woman_single'] = true;
-				$result->close();
-			}
-			$hasdw = "select * from woman_double where firstId = $stuId or secondId = $stuId limit 1";
-			$result = $db->query($hasdw);
-			if ( mysqli_num_rows($result) ) {
-				$competitionItem['woman_double'] = true;
-				$result->close();
-			}
-			$hasmix = "select * from mix_double where firstId = $stuId or secondId = $stuId limit 1";
-			$result = $db->query($hasmix);
-			if ( mysqli_num_rows($result) ) {
-				$competitionItem['mix_double'] = true;
-				$result->close();
-			}*/
 		}
 		//referee
-		else if ( mysqli_num_rows($resultIsR) ) {
-			
+		if ( mysqli_num_rows($resultIsR) ) {
 			$competitionItem['referee'] = true;
 		}
-		
+
 		$resultIsP->close();
 		$resultIsR->close();
 		return $competitionItem;

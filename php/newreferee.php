@@ -5,6 +5,8 @@
 </head>
 <body>
 <?php
+  require('dohtml.php');
+
 	$stuName = trim($_POST["student-name"]);
 	$stuId = trim($_POST["student-id"]);
 	$phoNum = trim($_POST["phone-num"]);
@@ -25,11 +27,13 @@
 		}
 		
 		register();
-		echo "<h1>报名成功</h1>";
+		doHeader("报名成功");
 		echo "<p>$stuName 同学, 学号 $stuId, 手机号 $phoNum, 感谢报名参加裁判工作</p><ul>";
+		doFooter();
 	} catch ( Exception $e ) {
-		echo "An error occurred! ";
+		doHeader("出错啦");
 		echo $e->getMessage();
+		doFooter();
 		exit;
 	}
 	
@@ -82,7 +86,9 @@
 				throw new Exception('你已经报过名了。');
 			}
 		} catch ( Exception $e ) {
+			doHeader("出错啦");
 			echo $e->getMessage();
+			doFooter();
 			exit;
 		} 
 	}
