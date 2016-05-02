@@ -150,14 +150,53 @@
 				throw new Exception('Error: Could not connect to database. Please try again later.');
 			}
 			
+			//Check whether referee, true->reject apply; false->continue
+			//The player
+			$checkReferee = "select * from referee where id = $stuId limit 1";
+			$isReferee = $db->query($checkReferee);
+			if ( mysqli_num_rows($isReferee) ) {
+				throw new Exception('你已经报名裁判了，不能同时报名参赛');
+			}
+			$isReferee->close();
+			//The partner
+			if ( $parId ) {
+				$checkReferee = "select * from referee where id = $parId limit 1";
+				$isReferee = $db->query($checkReferee);
+				if ( mysqli_num_rows($isReferee) ) {
+					throw new Exception('你的双打搭档已经报名裁判了，不能同时报名参赛');
+				}
+				$isReferee->close();
+			}
+			if ( $mixParId ) {
+				$checkReferee = "select * from referee where id = $mixParId limit 1";
+				$isReferee = $db->query($checkReferee);
+				if ( mysqli_num_rows($isReferee) ) {
+					throw new Exception('你的混双搭档已经报名裁判了，不能同时报名参赛');
+				}
+				$isReferee->close();
+			}
+			
+			//apply for man_single
 			if ( isset($issm) ) {
-				$insertSM = 'insert ignore into man_single values("'.$stuId.'")';
-				$db->query($insertSM);
+				$check = "select * from man_single where id = $stuId limit 1";
+				$result = $db->query($check);
+				if ( $result == false || mysqli_num_rows($result) == 0 ) {
+					$insertSM = 'insert into man_single values("'.$stuId.'")';
+					$db->query($insertSM);
+				} else {
+					throw new Exception('你已经报名参加过男单项目了！');
+				}
 			}
 
 			if ( isset($issw) ) {
-				$insertSW = 'insert ignore into woman_single values("'.$stuId.'")';
-				$db->query($insertSW);
+				$check = "select * from woman_single where id = $stuId limit 1";
+				$result = $db->query($check);
+				if ( $result == false || mysqli_num_rows($result) == 0 ) {
+				  $insertSW = 'insert into woman_single values("'.$stuId.'")';
+				  $db->query($insertSW);
+				} else {
+					throw new Exception('你已经报名参加过女单项目了！');
+				}
 			}
 			
 			if ( isset($isdm) ) {

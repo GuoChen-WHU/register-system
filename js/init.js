@@ -21,6 +21,12 @@
 	scheduleButton.addEventListener("click", function() {
 		window.open("schedule.html");
 	})
+	
+	var playerAppliedRefresh = document.querySelector("#player-applied .octicon-sync");
+	playerAppliedRefresh.addEventListener("click", function() {
+		
+	})
+	
 }
 
 function popup(winURL) {

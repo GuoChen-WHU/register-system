@@ -7,7 +7,6 @@
 <?php
   require('dohtml.php');
 
-	$DOCUMENT_ROOT = $_SERVER["DOCUMENT_ROOT"];
 	$stuName = trim($_POST["student-name"]);
 	$stuId = trim($_POST["student-id"]);
 
@@ -26,7 +25,7 @@
 		if ( $item['man_single'] == false && $item['man_double'] == false 
 			&& $item['woman_single'] == false && $item['woman_double'] == false
 			&& $item['mix_double'] == false && $item['referee'] == false) {
-				throw new Exception("你还没有报名参与任何项目，<a href=\"$DOCUMENT_ROOT/BadmintonApplication/form_player.html\">现在报名参赛</a>.");
+				throw new Exception("你还没有报名参与任何项目，<a href=\"../form_player.html\">现在报名参赛</a>.");
 		} else {
 			doHeader("查询结果");
 			echo "<p>你报名参与了以下项目：</p><ul>";
@@ -97,11 +96,9 @@
 		$competitionItem = array( 'man_single'=>false, 'man_double'=>false, 
 			'woman_single'=>false, 'woman_double'=>false, 'mix_double'=>false, 'referee'=>false);
 		
+		//player
 		$isPlayer = "select * from player where id = $stuId limit 1";
 		$resultIsP = $db->query($isPlayer);
-		$isReferee = "select * from referee where id = $stuId limit 1";
-		$resultIsR = $db->query($isReferee);
-		//player
 		if ( mysqli_num_rows($resultIsP) ) {
 			
 			$playerItem = "select * from player_engaged_item where id = $stuId limit 1";
@@ -127,11 +124,16 @@
 			$resultItem->close();
 		}
 		//referee
-		if ( mysqli_num_rows($resultIsR) ) {
-			$competitionItem['referee'] = true;
+		else {
+			$isReferee = "select * from referee where id = $stuId limit 1";
+			$resultIsR = $db->query($isReferee);
+			if ( mysqli_num_rows($resultIsR) ) {
+				$competitionItem['referee'] = true;
+			}
+			$resultIsR->close();
 		}
 
 		$resultIsP->close();
-		$resultIsR->close();
+		$db->close();
 		return $competitionItem;
 	}

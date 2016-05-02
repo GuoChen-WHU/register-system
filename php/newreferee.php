@@ -76,6 +76,21 @@
 				var_dump(mysqli_connect_error());
 				throw new Exception('Error: Could not connect to database. Please try again later.');
 			}
+			
+			//Check whether player, true->reject apply; false->continue
+			$checkPlayer = "select * from player where id = $stuId limit 1";
+			$isPlayer = $db->query($checkPlayer);
+			if ( mysqli_num_rows($isPlayer) ) {
+				throw new Exception('你已经报名参赛了，不能兼报裁判工作');
+			}
+			$isPlayer->close();
+			
+			$checkLimit = "select * from referee";
+			$appliedNumber = mysqli_num_rows( $db->query( $checkLimit ) );
+			if ( $appliedNumber > 7 ) {
+				throw new Exception('来晚了，报名人数已经够了:)');
+			}
+			
 			$check = "select * from referee where id = $stuId limit 1";
 			$result = $db->query($check);
 			if ( $result == false || mysqli_num_rows($result) == 0 ) {
