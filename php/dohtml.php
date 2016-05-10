@@ -1,15 +1,9 @@
 ﻿<?php
   function doHeader( $head ) {
 ?>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title></title>
   <link rel="icon" type="image/x-icon" href="../logo/header_logo.png">
 	<link rel="stylesheet" href="../lib/octicons/octicons/octicons.css">
   <link href="../css/main.css" rel="stylesheet">
-</head>
-<body>
 
   <header>
     <div class="wrap">
@@ -44,8 +38,6 @@
 			<p>Contact: 496474070@qq.com</p>
     </div>
   </footer>
-</body>
-</html>
 <?php
 	}
 ?>	  

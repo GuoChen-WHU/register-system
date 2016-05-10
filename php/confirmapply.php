@@ -30,24 +30,25 @@
 			doHeader("查询结果");
 			echo "<p>你报名参与了以下项目：</p><ul>";
 			if ( $item['man_single'] ) {
-				echo "<li>男单</li>";
+				echo "<li>男单 抽签号：".$item['man_single']."</li>";
 			}
 			if ( $item['man_double'] ) {
-				echo "<li>男双</li>";
+				echo "<li>男双 抽签号：".$item['man_double']."</li>";
 			}
 			if ( $item['woman_single'] ) {
-				echo "<li>女单</li>";
+				echo "<li>女单 抽签号：".$item['woman_single']."</li>";
 			}
 			if ( $item['woman_double'] ) {
-				echo "<li>女双</li>";
+				echo "<li>女双 抽签号：".$item['woman_double']."</li>";
 			}
 			if ( $item['mix_double'] ) {
-				echo "<li>混双</li>";
+				echo "<li>混双 抽签号：".$item['mix_double']."</li>";
 			}
 			if ( $item['referee'] ) {
 				echo "<li>裁判员</li>";
 			}
 			echo "</ul>";
+      echo "<p>关于抽签的<a href=\"../explain.html\">说明</a></p>";
 			doFooter();
 		}
 		
@@ -93,8 +94,7 @@
 		}
 		
 		//The array stores the competition item one engaged.
-		$competitionItem = array( 'man_single'=>false, 'man_double'=>false, 
-			'woman_single'=>false, 'woman_double'=>false, 'mix_double'=>false, 'referee'=>false);
+		$competitionItem = array();
 		
 		//player
 		$isPlayer = "select * from player where id = $stuId limit 1";
@@ -106,19 +106,19 @@
 			if ( mysqli_num_rows($resultItem) ) {
 				$engagedItem = $resultItem->fetch_assoc();
 				if ( $engagedItem["man_single"] ) {
-					$competitionItem['man_single'] = true;
+					$competitionItem['man_single'] = $engagedItem["man_single"];
 				}
-				if ( $engagedItem["man_double_firstId"] ) {
-					$competitionItem['man_double'] = true;
+				if ( $engagedItem["man_double"] ) {
+					$competitionItem['man_double'] = $engagedItem["man_double"];
 				}
 				if ( $engagedItem["woman_single"] ) {
-					$competitionItem['woman_single'] = true;
+					$competitionItem['woman_single'] = $engagedItem["woman_single"];
 				}
-				if ( $engagedItem["woman_double_firstId"] ) {
-					$competitionItem['woman_double'] = true;
+				if ( $engagedItem["woman_double"] ) {
+					$competitionItem['woman_double'] = $engagedItem["woman_double"];
 				}
-				if ( $engagedItem["mix_double_firstId"] ) {
-					$competitionItem['mix_double'] = true;
+				if ( $engagedItem["mix_double"] ) {
+					$competitionItem['mix_double'] = $engagedItem["mix_double"];
 				}
 			}
 			$resultItem->close();
@@ -128,7 +128,7 @@
 			$isReferee = "select * from referee where id = $stuId limit 1";
 			$resultIsR = $db->query($isReferee);
 			if ( mysqli_num_rows($resultIsR) ) {
-				$competitionItem['referee'] = true;
+				$competitionItem['referee'] = 1;
 			}
 			$resultIsR->close();
 		}
@@ -137,3 +137,6 @@
 		$db->close();
 		return $competitionItem;
 	}
+?>
+</body>
+</html>

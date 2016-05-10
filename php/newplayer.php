@@ -45,25 +45,31 @@
 			throw new Exception('Phone Number is not valid, please go back and try again.');
 		}
 		
-		register();
+		$registerInfo = register();
 		doHeader("报名成功");
 		echo "<p>$stuName 同学, 学号 $stuId, 手机号 $phoNum, 报名参加了以下项目：</p><ul>";
-		if ( isset($issm) ) {
-			echo "<li>男单</li>";
+		if ( isset( $registerInfo["sm"] ) ) {
+      $drawNum = $registerInfo["sm"];
+			echo "<li>男单 (抽签号：$drawNum)</li>";
 		}
-		if ( isset($issw) ) {
-			echo "<li>女单</li>";
+		if ( isset( $registerInfo["sw"] ) ) {
+      $drawNum = $registerInfo["sw"];
+			echo "<li>女单 (抽签号：$drawNum)</li>";
 		}
-		if ( isset($isdm) ) {
-			echo "<li>男双  搭档：$parName</li>";
+		if ( isset( $registerInfo["dm"] ) ) {
+      $drawNum = $registerInfo["dm"];
+			echo "<li>男双  搭档：$parName (抽签号：$drawNum)</li>";
 		}
-		if ( isset($isdw) ) {
-			echo "<li>女双  搭档：$parName</li>";
+		if ( isset( $registerInfo["dw"] ) ) {
+      $drawNum = $registerInfo["dw"];
+			echo "<li>女双  搭档：$parName (抽签号：$drawNum)</li>";
 		}
-		if ( isset($ismix) ) {
-			echo "<li>混双  搭档：$mixParName</li>";
+		if ( isset( $registerInfo["mix"] ) ) {
+      $drawNum = $registerInfo["mix"];
+			echo "<li>混双  搭档：$mixParName (抽签号：$drawNum)</li>";
 		}
 		echo "</ul>";
+    echo "<p>关于抽签的<a href=\"../explain.html\">说明</a></p>";
 		doFooter();
 		
 	} catch ( Exception $e ) {
@@ -142,6 +148,7 @@
 		$mixParName = trim($_POST["mix-partner-name"]);
 		$mixParId = trim($_POST["mix-partner-id"]);
 		
+    $registerInfo = array();
 		$db = new mysqli('localhost', 'applyAccount', 'applyPassword', 'BadmintonApplication');
 		$db->query('set names utf8');
 		try {
@@ -181,8 +188,10 @@
 				$check = "select * from man_single where id = $stuId limit 1";
 				$result = $db->query($check);
 				if ( $result == false || mysqli_num_rows($result) == 0 ) {
-					$insertSM = 'insert into man_single values("'.$stuId.'")';
+          $drawNum = mt_rand(100, 999);
+					$insertSM = "insert into man_single values(\"$stuId\", $drawNum)";
 					$db->query($insertSM);
+          $registerInfo["sm"] = $drawNum;
 				} else {
 					throw new Exception('你已经报名参加过男单项目了！');
 				}
@@ -192,8 +201,10 @@
 				$check = "select * from woman_single where id = $stuId limit 1";
 				$result = $db->query($check);
 				if ( $result == false || mysqli_num_rows($result) == 0 ) {
-				  $insertSW = 'insert into woman_single values("'.$stuId.'")';
+          $drawNum = mt_rand(100, 999);
+				  $insertSW = "insert into woman_single values(\"$stuId\", $drawNum)";
 				  $db->query($insertSW);
+          $registerInfo["sw"] = $drawNum;
 				} else {
 					throw new Exception('你已经报名参加过女单项目了！');
 				}
@@ -203,10 +214,12 @@
 				$check = "select * from man_double where firstId = $stuId or secondId = $stuId or firstId = $parId or secondId = $parId limit 1";
 				$result = $db->query($check);
 				if ( $result == false || mysqli_num_rows($result) == 0 ) {
-					$insertDM = 'insert into man_double values("'.$stuId.'", "'.$parId.'")';
+          $drawNum = mt_rand(100, 999);
+					$insertDM = "insert into man_double values(\"$stuId\", \"$parId\", $drawNum)";
 					$db->query($insertDM);
 					$insertPartner = 'insert ignore into player values("'.$parId.'", "'.$parName.'", "")';
 					$db->query($insertPartner);
+          $registerInfo["dm"] = $drawNum;
 				} else {
 					throw new Exception('你或你的搭档已经报名参加过男双项目了！');
 				}
@@ -216,10 +229,12 @@
 				$check = "select * from woman_double where firstId = $stuId or secondId = $stuId or firstId = $parId or secondId = $parId limit 1";
 				$result = $db->query($check);
 				if ( $result == false || mysqli_num_rows($result) == 0 ) {
-					$insertDW = 'insert into woman_double values("'.$stuId.'", "'.$parId.'")';
+          $drawNum = mt_rand(100, 999);
+					$insertDW = "insert into woman_double values(\"$stuId\", \"$parId\", $drawNum)";
 					$db->query($insertDW);
 					$insertPartner = 'insert ignore into player values("'.$parId.'", "'.$parName.'", "")';
 					$db->query($insertPartner);
+          $registerInfo["dw"] = $drawNum;
 				} else {
 					throw new Exception('你或你的搭档已经报名参加过女双项目了！');
 				}					
@@ -229,10 +244,12 @@
 				$check = "select * from mix_double where firstId = $stuId or secondId = $stuId or firstId = $mixParId or secondId = $mixParId limit 1";
 				$result = $db->query($check);
 				if ( $result == false || mysqli_num_rows($result) == 0 ) {
-					$insertMix = 'insert into mix_double values("'.$stuId.'", "'.$mixParId.'")';
+          $drawNum = mt_rand(100, 999);
+					$insertMix = "insert into mix_double values(\"$stuId\", \"$mixParId\", $drawNum)";
 					$db->query($insertMix);
 					$insertMixPartner = 'insert ignore into player values("'.$mixParId.'", "'.$mixParName.'", "")';
 					$db->query($insertMixPartner);
+          $registerInfo["mix"] = $drawNum;
 				} else {
 					throw new Exception('你或你的搭档已经报名参加过混双项目了！');
 				}
@@ -241,6 +258,7 @@
 			$insertPlayer = 'replace into player values("'.$stuId.'", "'.$stuName.'", "'.$phoNum.'")';
 			$db->query($insertPlayer);
 			$db->close();
+      return $registerInfo;
 		} catch ( Exception $e ) {
 			doHeader("出错啦");
 			echo "<p>".$e->getMessage()."</p>";
