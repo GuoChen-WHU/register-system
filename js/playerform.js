@@ -26,7 +26,7 @@
 	var playerForm = document.getElementById("popup-player-form");
 	playerForm.onsubmit = function() {
 		var typeSelected = issm.checked || issw.checked || isdm.checked || isdw.checked || ismix.checked;
-		if (typeSelected == false) {
+		if (typeSelected === false) {
 			alert("请选择至少一个参赛项目。");
 			return false;
 		}
@@ -41,8 +41,8 @@
 			return false;
 		}
 		
-		var confirmInfo = "你的报名信息如下：\r\n姓名： " + inputs[0].value + "\r\n学号： " + inputs[1].value
-											+ "\r\n手机号： " + inputs[2].value + "\r\n报名项目：\r\n";
+		var confirmInfo = "你的报名信息如下：\r\n姓名： " + inputs[0].value + "\r\n学号： " + 
+											inputs[1].value + "\r\n手机号： " + inputs[2].value + "\r\n报名项目：\r\n";
 		if ( issm.checked ) {
 			confirmInfo += "  **男单\r\n";
 		}
@@ -66,11 +66,11 @@
 			return false;
 		}
 	};
-}
+};
 
 function setRelevant(check, form) {
 	check.addEventListener("click", function() {
-		if (this.checked == false) {
+		if (this.checked === false) {
 			form.setAttribute("hidden", "hidden");
 			form.removeAttribute("required");
 			clearInputs(form);
@@ -91,12 +91,12 @@ function clearInputs(form) {
 
 function singleCheck(firstCheck, secondCheck) {
 	firstCheck.addEventListener("click", function() {
-		if ( ( firstCheck.checked == true ) && ( secondCheck.checked == true ) ) {
+		if ( ( firstCheck.checked === true ) && ( secondCheck.checked === true ) ) {
 			secondCheck.click();
 		}
 	}, false);
 	secondCheck.addEventListener("click", function() {
-		if ( ( firstCheck.checked == true ) && ( secondCheck.checked == true ) ) {
+		if ( ( firstCheck.checked === true ) && ( secondCheck.checked === true ) ) {
 			firstCheck.click();
 		}
 	}, false);

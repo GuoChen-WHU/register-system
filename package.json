@@ -1,0 +1,27 @@
+{
+  "name": "badmintonapplication",
+  "version": "1.0.0",
+  "description": "A website for applying badminton competition hosted by RSYH.",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GuoChen-WHU/BadmintonApplication.git"
+  },
+  "author": "Guo Chen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GuoChen-WHU/BadmintonApplication/issues"
+  },
+  "homepage": "https://github.com/GuoChen-WHU/BadmintonApplication#readme",
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-cssmin": "^1.0.1",
+    "grunt-contrib-jshint": "^1.0.0",
+    "grunt-contrib-uglify": "^1.0.1",
+    "grunt-contrib-watch": "^1.0.0"
+  }
+}

@@ -6,5 +6,5 @@
 			return false;
 		}
 		return true;
-	}
-}
+	};
+};
