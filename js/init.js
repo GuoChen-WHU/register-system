@@ -1,34 +1,75 @@
-﻿window.onload = function () {
-	var playerApplyButton = document.getElementById("playerApply");
-	playerApplyButton.addEventListener("click", function() {
-		popup("form_player.html");
-		return false;
-	});
-	
-	var refereeApplyButton = document.getElementById("refereeApply");
-	refereeApplyButton.addEventListener("click", function() {
-		popup("form_referee.html");
-		return false;
-	});
-	
-	var confirmApplyButton = document.getElementById("confirmApply");
-	confirmApplyButton.addEventListener("click", function() {
-		popup("confirm_apply.html");
-		return false;
-	});
-	
-	var scheduleButton = document.getElementById("schedule");
-	scheduleButton.addEventListener("click", function() {
-		window.open("schedule.html");
-	});
-	
-/*	var playerAppliedRefresh = document.querySelector("#player-applied .octicon-sync");
-	playerAppliedRefresh.addEventListener("click", function() {
-		
-	})
-*/	
-};
+﻿$( function() {
 
-function popup(winURL) {
-  window.open(winURL,"popup","width=480,height=640");
-}
+  // 导航滑动效果
+	$( 'a' ).on( 'click', function( event ) {
+		if ( this.hash !== '' ) {
+			var hash = this.hash;
+			event.preventDefault();
+			$('html, body').animate(
+				{
+					scrollTop: $( hash ).offset().top
+				},
+				800,
+				function () {
+					if ( history.pushState ) {
+						history.pushState( null, null, hash );
+					} else {
+						location.hash = hash;
+					}
+				}
+			);
+		}
+	});
+
+/*	  // 导航条定位效果
+    $( document ).scroll( function() {
+    var top = $(document).scrollTop() + 200;
+    var closest = '';
+    $( '.cover' ).each( function() {
+      var pageTop = $( this ).offset().top;
+      if ( pageTop < top ) closest = $( this ).attr( 'id' );
+    });
+    $( '.navbar li' ).removeClass( 'active' );
+    $('.navbar li > a[href="#' + closest + '"]').parent().addClass('active');
+  });*/
+
+  // 选裁判时，跳过报名项目一节。同时，设定确认表单里报名类别这一项
+  $( '#role-player' ).click( function () {
+    enableItem();
+    setType( "player" );
+  });
+
+  $( '#role-referee' ).click( function () {
+    disableItem();
+    setType( "referee" );
+  });
+
+  function enableItem() {
+    $( '#js-toItem' )[0].hash = '#item';
+    $( '.item-select' ).attr( 'disabled', false );
+  }
+
+  function disableItem() {
+    $( '#js-toItem' )[0].hash = '#confirm';
+    $( '.item-select' ).attr( 'disabled', true );
+  }
+
+  function setType( type ) {
+    $( '#js-type' )[0].value = type;
+  }
+
+  // 在确认表单里，强行让文本框不能输入.（如果用disabled，表单项不会提交；用readonly，不能使用html的验证）
+  // 对于选择框，直接让所有option hidden =_=
+  $( '.confirm-form input' ).keydown( function( e ) {
+    e.preventDefault();
+  });
+  $( '.confirm-form input' ).on( 'keydown paste', function( e ) {
+    e.preventDefault();
+  });
+
+  
+  // 异步提交表单，提交前会验证
+  $('.confirm-form').submit( function (e) {
+//    e.preventDefault();
+  });
+});

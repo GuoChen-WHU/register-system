@@ -10,16 +10,13 @@
 	$stuName = trim($_POST["student-name"]);
 	$stuId = trim($_POST["student-id"]);
 	$phoNum = trim($_POST["phone-num"]);
-	@ $issm = $_POST["is-single-man"];
-	@ $issw = $_POST["is-single-woman"];
-	@ $isdm = $_POST["is-double-man"];
-	@ $isdw = $_POST["is-double-woman"];
-	@ $ismix = $_POST["is-mix"];
-	$parName = trim($_POST["partner-name"]);
-	$parId = trim($_POST["partner-id"]);
-	$mixParName = trim($_POST["mix-partner-name"]);
-	$mixParId = trim($_POST["mix-partner-id"]);
-	
+	$item1 = trim($_POST["item1"]);
+	$item2 = trim($_POST["item2"]);
+	$parName1 = trim($_POST["partner1-name"]);
+	$parId1 = trim($_POST["partner1-id"]);
+	$parName2 = trim($_POST["partner2-name"]);
+	$parId2 = trim($_POST["partner2-id"]);
+
 	try {
 		// check forms filled in
 		if ( !filled_out() ) {
@@ -28,16 +25,16 @@
 		}
 		// check id
 		if ( !valid_id($stuId) ) {
-			throw new Exception('Student ID is not valid,  please go back and try again.');
+			throw new Exception('Your student ID is not valid,  please go back and try again.');
 		}
-		if ( isset($isdm) || isset($isdw) ) {
-			if ( !valid_id($parId) ) {
-				throw new Exception('Student ID is not valid,  please go back and try again.');
+		if ( $parId1 != "" ) {
+			if ( !valid_id($parId1) ) {
+				throw new Exception('The student ID of $item1 partner is not valid,  please go back and try again.');
 			}
 		}
-		if ( isset($ismix) ) {
-			if ( !valid_id($mixParId) ) {
-				throw new Exception('Student ID is not valid,  please go back and try again.');				
+		if ( isset($parId2) ) {
+			if ( !valid_id($parId2) ) {
+				throw new Exception('The student ID of $item2 partner is not valid,  please go back and try again.');				
 			}
 		}
 		// check phone number
@@ -58,15 +55,18 @@
 		}
 		if ( isset( $registerInfo["dm"] ) ) {
       $drawNum = $registerInfo["dm"];
-			echo "<li>男双  搭档：$parName (抽签号：$drawNum)</li>";
+      $par = $registerInfo["dm-par"];
+			echo "<li>男双  搭档：$par (抽签号：$drawNum)</li>";
 		}
 		if ( isset( $registerInfo["dw"] ) ) {
       $drawNum = $registerInfo["dw"];
-			echo "<li>女双  搭档：$parName (抽签号：$drawNum)</li>";
+      $par = $registerInfo["dw-par"];
+			echo "<li>女双  搭档：$par (抽签号：$drawNum)</li>";
 		}
 		if ( isset( $registerInfo["mix"] ) ) {
       $drawNum = $registerInfo["mix"];
-			echo "<li>混双  搭档：$mixParName (抽签号：$drawNum)</li>";
+      $par = $registerInfo["mix-par"];
+			echo "<li>混双  搭档：$par (抽签号：$drawNum)</li>";
 		}
 		echo "</ul>";
     echo "<p>关于抽签的<a href=\"../explain.html\">说明</a></p>";
@@ -83,33 +83,28 @@
 		$stuName = trim($_POST["student-name"]);
 		$stuId = trim($_POST["student-id"]);
 		$phoNum = trim($_POST["phone-num"]);
-		@ $issm = $_POST["is-single-man"];
-		@ $issw = $_POST["is-single-woman"];
-		@ $isdm = $_POST["is-double-man"];
-		@ $isdw = $_POST["is-double-woman"];
-		@ $ismix = $_POST["is-mix"];
-		$parName = trim($_POST["partner-name"]);
-		$parId = trim($_POST["partner-id"]);
-		$mixParName = trim($_POST["mix-partner-name"]);
-		$mixParId = trim($_POST["mix-partner-id"]);
+	@ $item1 = trim($_POST["item1"]);
+	@ $item2 = trim($_POST["item2"]);
+	@ $parName1 = trim($_POST["partner1-name"]);
+	@ $parId1 = trim($_POST["partner1-id"]);
+	@ $parName2 = trim($_POST["partner2-name"]);
+	@ $parId2 = trim($_POST["partner2-id"]);
 		//these three is necessary
 		if ( !$stuName || !$stuId || !$phoNum ) {
 			return false;
 		}
-		//one of the five types is necessary
-		if ( !isset($issm) && !isset($issw) && !isset($isdm) && 
-				 !isset($isdw) && !isset($ismix) ) {
+		//one of the items is necessary
+		if ( !isset($item1) && !isset($item2) ) {
 			return false;
 		}
 		//once applied double, partner info are necessary
-		if ( isset($isdm) || isset($isdw) ) {
-			if ( !$parName || !$parId ) {
+		if ( $item1 == "dbl-man" || $item1 == "dbl-wm" || $item1 == "dbl-mix" ) {
+			if ( !$parName1 || !$parId1 ) {
 				return false;
 			}
 		}
-		//once applied mix, mix partner info are necessary
-		if ( isset($ismix) ) {
-			if ( !$mixParName || !$mixParId ) {
+		if ( $item2 == "dbl-man" || $item2 == "dbl-wm" || $item2 == "dbl-mix" ) {
+			if ( !$parName2 || !$parId2 ) {
 				return false;
 			}
 		}
@@ -138,15 +133,12 @@
 		$stuName = trim($_POST["student-name"]);
 		$stuId = trim($_POST["student-id"]);
 		$phoNum = trim($_POST["phone-num"]);
-		@ $issm = $_POST["is-single-man"];
-		@ $issw = $_POST["is-single-woman"];
-		@ $isdm = $_POST["is-double-man"];
-		@ $isdw = $_POST["is-double-woman"];
-		@ $ismix = $_POST["is-mix"];
-		$parName = trim($_POST["partner-name"]);
-		$parId = trim($_POST["partner-id"]);
-		$mixParName = trim($_POST["mix-partner-name"]);
-		$mixParId = trim($_POST["mix-partner-id"]);
+	@ $item1 = trim($_POST["item1"]);
+	@ $item2 = trim($_POST["item2"]);
+	@ $parName1 = trim($_POST["partner1-name"]);
+	@ $parId1 = trim($_POST["partner1-id"]);
+	@ $parName2 = trim($_POST["partner2-name"]);
+	@ $parId2 = trim($_POST["partner2-id"]);
 		
     $registerInfo = array();
 		$db = new mysqli('localhost', 'applyAccount', 'applyPassword', 'BadmintonApplication');
@@ -166,38 +158,38 @@
 			}
 			$isReferee->close();
 			//The partner
-			if ( $parId ) {
-				$checkReferee = "select * from referee where id = $parId limit 1";
+			if ( $parId1 ) {
+				$checkReferee = "select * from referee where id = $parId1 limit 1";
 				$isReferee = $db->query($checkReferee);
 				if ( mysqli_num_rows($isReferee) ) {
 					throw new Exception('你的双打搭档已经报名裁判了，不能同时报名参赛');
 				}
 				$isReferee->close();
 			}
-			if ( $mixParId ) {
-				$checkReferee = "select * from referee where id = $mixParId limit 1";
+			if ( $parId2 ) {
+				$checkReferee = "select * from referee where id = $parId2 limit 1";
 				$isReferee = $db->query($checkReferee);
 				if ( mysqli_num_rows($isReferee) ) {
-					throw new Exception('你的混双搭档已经报名裁判了，不能同时报名参赛');
+					throw new Exception('你的双打搭档已经报名裁判了，不能同时报名参赛');
 				}
 				$isReferee->close();
 			}
 			
 			//apply for man_single
-			if ( isset($issm) ) {
+			if ( $item1 == "sng-man" || $item2 == "sng-man" ) {
 				$check = "select * from man_single where id = $stuId limit 1";
 				$result = $db->query($check);
 				if ( $result == false || mysqli_num_rows($result) == 0 ) {
           $drawNum = mt_rand(100, 999);
 					$insertSM = "insert into man_single values(\"$stuId\", $drawNum)";
-					$db->query($insertSM);
+					$response = $db->query($insertSM);
           $registerInfo["sm"] = $drawNum;
 				} else {
 					throw new Exception('你已经报名参加过男单项目了！');
 				}
 			}
 
-			if ( isset($issw) ) {
+			if ( $item1 == "sng-wm" || $item2 == "sng-wm" ) {
 				$check = "select * from woman_single where id = $stuId limit 1";
 				$result = $db->query($check);
 				if ( $result == false || mysqli_num_rows($result) == 0 ) {
@@ -210,51 +202,102 @@
 				}
 			}
 			
-			if ( isset($isdm) ) {
-				$check = "select * from man_double where firstId = $stuId or secondId = $stuId or firstId = $parId or secondId = $parId limit 1";
+			if ( $item1 == "dbl-man" ) {
+				$check = "select * from man_double where firstId = $stuId or secondId = $stuId or firstId = $parId1 or secondId = $parId1 limit 1";
 				$result = $db->query($check);
 				if ( $result == false || mysqli_num_rows($result) == 0 ) {
           $drawNum = mt_rand(100, 999);
-					$insertDM = "insert into man_double values(\"$stuId\", \"$parId\", $drawNum)";
+					$insertDM = "insert into man_double values(\"$stuId\", \"$parId1\", $drawNum)";
 					$db->query($insertDM);
-					$insertPartner = 'insert ignore into player values("'.$parId.'", "'.$parName.'", "")';
+					$insertPartner = 'insert ignore into player values("'.$parId1.'", "'.$parName1.'", "")';
 					$db->query($insertPartner);
           $registerInfo["dm"] = $drawNum;
+          $registerInfo["dm-par"] = $parName1;
 				} else {
 					throw new Exception('你或你的搭档已经报名参加过男双项目了！');
 				}
 			}
 	
-			if ( isset($isdw) ) {
-				$check = "select * from woman_double where firstId = $stuId or secondId = $stuId or firstId = $parId or secondId = $parId limit 1";
+			if ( $item1 == "dbl-wm" ) {
+				$check = "select * from woman_double where firstId = $stuId or secondId = $stuId or firstId = $parId1 or secondId = $parId1 limit 1";
 				$result = $db->query($check);
 				if ( $result == false || mysqli_num_rows($result) == 0 ) {
           $drawNum = mt_rand(100, 999);
-					$insertDW = "insert into woman_double values(\"$stuId\", \"$parId\", $drawNum)";
+					$insertDW = "insert into woman_double values(\"$stuId\", \"$parId1\", $drawNum)";
 					$db->query($insertDW);
-					$insertPartner = 'insert ignore into player values("'.$parId.'", "'.$parName.'", "")';
+					$insertPartner = 'insert ignore into player values("'.$parId1.'", "'.$parName1.'", "")';
 					$db->query($insertPartner);
           $registerInfo["dw"] = $drawNum;
+          $registerInfo["dw-par"] = $parName1;
 				} else {
 					throw new Exception('你或你的搭档已经报名参加过女双项目了！');
 				}					
 			}
 			
-			if ( isset($ismix) ) {
-				$check = "select * from mix_double where firstId = $stuId or secondId = $stuId or firstId = $mixParId or secondId = $mixParId limit 1";
+			if ( $item1 == "dbl-mix" ) {
+				$check = "select * from mix_double where firstId = $stuId or secondId = $stuId or firstId = $parId1 or secondId = $parId1 limit 1";
 				$result = $db->query($check);
 				if ( $result == false || mysqli_num_rows($result) == 0 ) {
           $drawNum = mt_rand(100, 999);
-					$insertMix = "insert into mix_double values(\"$stuId\", \"$mixParId\", $drawNum)";
+					$insertMix = "insert into mix_double values(\"$stuId\", \"$parId1\", $drawNum)";
 					$db->query($insertMix);
-					$insertMixPartner = 'insert ignore into player values("'.$mixParId.'", "'.$mixParName.'", "")';
+					$insertMixPartner = 'insert ignore into player values("'.$parId1.'", "'.$parName1.'", "")';
 					$db->query($insertMixPartner);
           $registerInfo["mix"] = $drawNum;
+          $registerInfo["mix-par"] = $parName1;
 				} else {
 					throw new Exception('你或你的搭档已经报名参加过混双项目了！');
 				}
 			}
+
+			if ( $item2 == "dbl-man" ) {
+				$check = "select * from man_double where firstId = $stuId or secondId = $stuId or firstId = $parId2 or secondId = $parId2 limit 1";
+				$result = $db->query($check);
+				if ( $result == false || mysqli_num_rows($result) == 0 ) {
+          $drawNum = mt_rand(100, 999);
+					$insertDM = "insert into man_double values(\"$stuId\", \"$parId2\", $drawNum)";
+					$db->query($insertDM);
+					$insertPartner = 'insert ignore into player values("'.$parId2.'", "'.$parName2.'", "")';
+					$db->query($insertPartner);
+          $registerInfo["dm"] = $drawNum;
+          $registerInfo["dm-par"] = $parName2;
+				} else {
+					throw new Exception('你或你的搭档已经报名参加过男双项目了！');
+				}
+			}
+	
+			if ( $item2 == "dbl-wm" ) {
+				$check = "select * from woman_double where firstId = $stuId or secondId = $stuId or firstId = $parId2 or secondId = $parId2 limit 1";
+				$result = $db->query($check);
+				if ( $result == false || mysqli_num_rows($result) == 0 ) {
+          $drawNum = mt_rand(100, 999);
+					$insertDW = "insert into woman_double values(\"$stuId\", \"$parId2\", $drawNum)";
+					$db->query($insertDW);
+					$insertPartner = 'insert ignore into player values("'.$parId2.'", "'.$parName2.'", "")';
+					$db->query($insertPartner);
+          $registerInfo["dw"] = $drawNum;
+          $registerInfo["dw-par"] = $parName2;
+				} else {
+					throw new Exception('你或你的搭档已经报名参加过女双项目了！');
+				}					
+			}
 			
+			if ( $item2 == "dbl-mix" ) {
+				$check = "select * from mix_double where firstId = $stuId or secondId = $stuId or firstId = $parId2 or secondId = $parId2 limit 1";
+				$result = $db->query($check);
+				if ( $result == false || mysqli_num_rows($result) == 0 ) {
+          $drawNum = mt_rand(100, 999);
+					$insertMix = "insert into mix_double values(\"$stuId\", \"$parId2\", $drawNum)";
+					$db->query($insertMix);
+					$insertMixPartner = 'insert ignore into player values("'.$parId2.'", "'.$parName2.'", "")';
+					$db->query($insertMixPartner);
+          $registerInfo["mix"] = $drawNum;
+          $registerInfo["mix-par"] = $parName2;
+				} else {
+					throw new Exception('你或你的搭档已经报名参加过混双项目了！');
+				}
+			}
+						
 			$insertPlayer = 'replace into player values("'.$stuId.'", "'.$stuName.'", "'.$phoNum.'")';
 			$db->query($insertPlayer);
 			$db->close();
