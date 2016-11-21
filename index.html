@@ -5,7 +5,7 @@
   <title>遥感研究生乒乓球赛2016</title>
   <link rel="icon" type="image/x-icon" href="img/header-logo.jpg">
 
-	<link rel="stylesheet" href="lib/octicons/octicons/octicons.css">
+	<link rel="stylesheet" href="node_modules/octicons/build/font/octicons.min.css">
   <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
 
   <link rel="stylesheet" href="css/main.css">
@@ -63,7 +63,7 @@
           </p>
         </label>
       </div>
-      <a class="roll-down octicon octicon-arrow-down" href="#information"></a>
+      <a class="roll-down octicon octicon-chevron-down" href="#information"></a>
     </div>
   </section>
 
@@ -77,7 +77,7 @@
         <input ng-model="student.id" type="text" placeholder="学号">
         <input ng-model="student.phone" type="text" placeholder="手机号">
       </form>
-      <a id="js-toItem" class="roll-down octicon octicon-arrow-down" href="#item"></a>
+      <a id="js-toItem" class="roll-down octicon octicon-chevron-down" href="#item"></a>
     </div>
   </section>
 
@@ -120,7 +120,7 @@
           </div>
         </div>
       </div>
-      <a class="roll-down octicon octicon-arrow-down" href="#confirm"></a>
+      <a class="roll-down octicon octicon-chevron-down" href="#confirm"></a>
     </div>
   </section>
 
@@ -191,10 +191,41 @@
         </div>
       </form>
 
-      <a class="roll-down octicon octicon-arrow-down" href="#schedule"></a>
+      <a class="roll-down octicon octicon-chevron-down" href="#schedule"></a>
     </div>
   </section>
 	
+  <div class="modal fade" id="modal-submit" tabindex="-1" role="dialog" aria-labelledby="modal-submit-label">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-body">
+          <h5 class="modal-title" id="modal-submit-label">正在处理中</h5>
+          <div class="progress">
+            <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+              <span class="sr-only">进度条</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="modal-response" tabindex="-1" role="dialog" aria-labelledby="modal-response-label">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h5 class="modal-title" id="modal-response-label"></h5>
+        </div>
+        <div class="modal-body"></div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <section id="schedule" class="cover">
     <div class="container-fluid">
       <h2 class="schedule-title">

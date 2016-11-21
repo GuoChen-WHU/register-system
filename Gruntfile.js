@@ -35,9 +35,11 @@ module.exports = function(grunt) {
         }
       }
     },
+    clean: {
+      files: ['build']
+    },
     jshint: {
-      beforeconcat: ['js/*.js', 'Gruntfile.js'],
-      afterconcat: ['build/js/myscripts.js']
+      files: ['js/*.js', 'Gruntfile.js']
     },
     concat: {
       js: {
@@ -62,34 +64,30 @@ module.exports = function(grunt) {
       },
       js: {
         files: ['js/*.js'],
-        tasks: ['jshint', 'uglify'],
+        tasks: ['jshint', 'concat:js', 'uglify']
       },
       css: {
         files: ['css/*.css'],
-        tasks: ['cssmin'],
+        tasks: ['concat:css', 'cssmin']
       }
     },
     uglify: {
       target: {
         files: {
-          'build/js/init.min.js': ['js/init.js'],
-          'build/js/confirmapply.min.js': ['js/confirmapply.js'],
-          'build/js/playerform.min.js': ['js/playerform.js'],
-          'build/js/refereeform.min.js': ['js/refereeform.js'],
+          'build/js/myscripts.min.js': ['build/js/myscripts.js']
         }
       }
     },
     cssmin: {
       target: {
         files: {
-          'build/css/main.min.css': ['css/main.css'],
-          'build/css/popup.min.css': ['css/popup.css'],
-          'build/css/schedule.min.css': ['css/schedule.css']
+          'build/css/mystyles.min.css': ['build/css/mystyles.css']
         }
       }
     }
   });
 
+  grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-concat');

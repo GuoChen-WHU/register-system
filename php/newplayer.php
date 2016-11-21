@@ -5,7 +5,6 @@
 </head>
 <body>
 <?php
-  require('dohtml.php');
 
 	$stuName = trim($_POST["student-name"]);
 	$stuId = trim($_POST["student-id"]);
@@ -32,7 +31,7 @@
 				throw new Exception('The student ID of $item1 partner is not valid,  please go back and try again.');
 			}
 		}
-		if ( isset($parId2) ) {
+		if ( $parId2 != "" ) {
 			if ( !valid_id($parId2) ) {
 				throw new Exception('The student ID of $item2 partner is not valid,  please go back and try again.');				
 			}
@@ -43,7 +42,7 @@
 		}
 		
 		$registerInfo = register();
-		doHeader("报名成功");
+		echo "<h1>报名成功</h1>";
 		echo "<p>$stuName 同学, 学号 $stuId, 手机号 $phoNum, 报名参加了以下项目：</p><ul>";
 		if ( isset( $registerInfo["sm"] ) ) {
       $drawNum = $registerInfo["sm"];
@@ -70,12 +69,10 @@
 		}
 		echo "</ul>";
     echo "<p>关于抽签的<a href=\"../explain.html\">说明</a></p>";
-		doFooter();
 		
 	} catch ( Exception $e ) {
-		doHeader("出错啦");
+		echo "<h1>出错啦</h1>";
 		echo "<p>".$e->getMessage()."</p>";
-		doFooter();
 		exit;
 	}
 	
@@ -83,18 +80,22 @@
 		$stuName = trim($_POST["student-name"]);
 		$stuId = trim($_POST["student-id"]);
 		$phoNum = trim($_POST["phone-num"]);
-	@ $item1 = trim($_POST["item1"]);
-	@ $item2 = trim($_POST["item2"]);
-	@ $parName1 = trim($_POST["partner1-name"]);
-	@ $parId1 = trim($_POST["partner1-id"]);
-	@ $parName2 = trim($_POST["partner2-name"]);
-	@ $parId2 = trim($_POST["partner2-id"]);
+	  $item1 = trim($_POST["item1"]);
+	  $item2 = trim($_POST["item2"]);
+	  $parName1 = trim($_POST["partner1-name"]);
+	  $parId1 = trim($_POST["partner1-id"]);
+	  $parName2 = trim($_POST["partner2-name"]);
+	  $parId2 = trim($_POST["partner2-id"]);
 		//these three is necessary
 		if ( !$stuName || !$stuId || !$phoNum ) {
 			return false;
 		}
 		//one of the items is necessary
-		if ( !isset($item1) && !isset($item2) ) {
+		if ( $item1 !== "sng-man" && $item1 !== "sng-wm" 
+				&& $item1 !== "dbl-man" && $item1 !== "dbl-wm"
+				&& $item1 !== "dbl-mix" && $item2 !== "sng-man"
+				&& $item2 !== "sng-wm" && $item2 !== "dbl-man"
+				&& $item2 !== "dbl-wm" && $item2 !== "dbl-mix" ) {
 			return false;
 		}
 		//once applied double, partner info are necessary
@@ -133,12 +134,12 @@
 		$stuName = trim($_POST["student-name"]);
 		$stuId = trim($_POST["student-id"]);
 		$phoNum = trim($_POST["phone-num"]);
-	@ $item1 = trim($_POST["item1"]);
-	@ $item2 = trim($_POST["item2"]);
-	@ $parName1 = trim($_POST["partner1-name"]);
-	@ $parId1 = trim($_POST["partner1-id"]);
-	@ $parName2 = trim($_POST["partner2-name"]);
-	@ $parId2 = trim($_POST["partner2-id"]);
+	  $item1 = trim($_POST["item1"]);
+	  $item2 = trim($_POST["item2"]);
+	  $parName1 = trim($_POST["partner1-name"]);
+	  $parId1 = trim($_POST["partner1-id"]);
+	  $parName2 = trim($_POST["partner2-name"]);
+	  $parId2 = trim($_POST["partner2-id"]);
 		
     $registerInfo = array();
 		$db = new mysqli('localhost', 'applyAccount', 'applyPassword', 'BadmintonApplication');
@@ -303,9 +304,8 @@
 			$db->close();
       return $registerInfo;
 		} catch ( Exception $e ) {
-			doHeader("出错啦");
+			echo "<h1>出错啦</h1>";
 			echo "<p>".$e->getMessage()."</p>";
-			doFooter();
 			exit;
 		} 
 	}

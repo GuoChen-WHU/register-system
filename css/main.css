@@ -8,6 +8,15 @@ body {
   height: 100%;
   font-family: "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
   color: #4e4e4e;
+
+  /* fix bootstrap modal open */
+  padding-right: 0 !important;
+}
+
+/* fix bootstrap modal open */
+body.modal-open {
+  overflow-y: auto !important;
+  padding-right: 0 !important;
 }
 
 .cover {
@@ -340,6 +349,12 @@ h2:after {
   text-decoration: none;
 }
 /* End confirm */
+
+/* Start modal */
+.progress-bar {
+  width: 100%;
+}
+/* End modal */
 
 /* Start schedule */
 #schedule {

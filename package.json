@@ -19,6 +19,7 @@
   "devDependencies": {
     "connect-livereload": "^0.6.0",
     "grunt": "^1.0.1",
+    "grunt-contrib-clean": "^1.0.0",
     "grunt-contrib-concat": "^1.0.1",
     "grunt-contrib-connect": "0.10.1",
     "grunt-contrib-cssmin": "^1.0.1",
@@ -28,6 +29,7 @@
   },
   "dependencies": {
     "bootstrap": "^3.3.7",
-    "jquery": "^3.1.1"
+    "jquery": "^3.1.1",
+    "octicons": "^4.3.0"
   }
 }
