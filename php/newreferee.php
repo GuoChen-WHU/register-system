@@ -27,7 +27,7 @@
 		
 		register();
 		echo "<h1>报名成功</h1>";
-		echo "<p>$stuName 同学, 学号 $stuId, 手机号 $phoNum, 感谢报名参加裁判工作</p><ul>";
+		echo "<p>$stuName 同学，学号 $stuId ，手机号 $phoNum ，感谢报名参加裁判工作，请留意后续裁判培训通知。</p><ul>";
 	} catch ( Exception $e ) {
 		echo "<h1>出错啦</h1>";
 		echo "<p>".$e->getMessage()."</p>";

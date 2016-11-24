@@ -25,15 +25,11 @@ body.modal-open {
   padding-top: 70px;
 }
 
-.container-fluid {
-  max-width: 960px;
-}
-
 /* End Basics */
 
 /* Start header */
 .navbar {
-  height: 56px;
+  height: 52px;
   background-color: #fff;
   border-bottom: 2px solid rgba(0, 0, 0, 0.4);
 }
@@ -47,19 +43,19 @@ body.modal-open {
   float: none;
 }
 
-.nav>li {
+.nav>li.active {
+  background-color: #eee;
 }
-
 .nav>li>a {
   font-size: 1.2em;
   color: #4e4e4e;
 }
 
-.nav>li>a:focus,
-.nav>li>a:hover {
-  background-color: inherit;
-  border-bottom: 4px solid #E57D69;
+.nav>li>a:hover,
+.nav>li>a:focus {
+  background-color: transparent;
 }
+
 /* End header */
 
 /* Start title */
@@ -70,25 +66,22 @@ body.modal-open {
   background-repeat: repeat-x;
 }
 
-.intro-title {
+.intro {
   position: absolute;
   top: 40%;
   left: 5%;
+}
+
+.intro-title {
   font-size: 4.5em;
   font-weight: 300;
 }
 
 .intro-date {
-  position: absolute;
-  top: 52%;
-  left: 5%;
   font-size: 2.5em;
 }
 
 .intro-par {
-  position: absolute;
-  top: 62%;
-  left: 5%;
   font-size: 1.5em;
 }
 
@@ -105,9 +98,6 @@ body.modal-open {
 }
 
 .btn-signup {
-  position: absolute;
-  top: 66%;
-  left: 5%;
   width: 30%;
   color: #fff;
   background-color: inherit;
@@ -178,7 +168,7 @@ h2:after {
 
 .roll-down:focus,
 .roll-down:hover {
-  color: #f68e7a;
+  color: #c55d49;
   text-decoration: none;
 }
 /* End player-or-referee */
@@ -205,6 +195,7 @@ h2:after {
   margin-top: 10%;
   margin-right: auto;
   margin-left: auto;
+  text-align: center;
 }
 
 .form-horizontal input {
@@ -226,12 +217,16 @@ h2:after {
 }
 
 .form-horizontal input:focus {
-  width: 100%;
+  width: 60%;
   outline: none;
 }
 
 #information .roll-down {
   color: #fff;
+}
+
+#information .roll-down:hover {
+  color: #ddd;
 }
 /* End information */
 
@@ -257,7 +252,7 @@ h2:after {
   height: 36px;
   margin-bottom: 20px;
   padding-left: 5px;
-  background: #fff url("../img/select-down.png") 97% no-repeat;
+  background: #fff url("../../img/select-down.png") 97% no-repeat;
   border: 1px solid #E57D69;
 }
 
@@ -280,7 +275,7 @@ h2:after {
 .item-select option:hover,
 .item-select option:checked {
   color: #fff;
-  background-image: url("../img/option-bg.png");
+  background-image: url("../../img/option-bg.png");
 }
 
 .partner-info input {
@@ -317,6 +312,7 @@ h2:after {
 }
 
 .form-item input[type="text"] {
+  width: 48%;
   background-color: transparent;
   border: none;
 }
@@ -411,7 +407,7 @@ h5 {
 .event-name {
   margin-left: 90px;
   padding-left: 40px;
-  background-image: url("../img/schedule-event-dot.svg");
+  background-image: url("../../img/schedule-event-dot.svg");
   background-size: 16px 16px;
   background-repeat: no-repeat;
 }

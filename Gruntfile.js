@@ -39,15 +39,15 @@ module.exports = function(grunt) {
       files: ['build']
     },
     jshint: {
-      files: ['js/*.js', 'Gruntfile.js']
+      files: ['src/js/*.js', 'Gruntfile.js']
     },
     concat: {
       js: {
-        src: ['js/*.js'],
+        src: ['src/js/*.js'],
         dest: 'build/js/myscripts.js'
       },
       css: {
-        src: ['css/*.css'],
+        src: ['src/css/*.css'],
         dest: 'build/css/mystyles.css'
       }
     },
@@ -57,17 +57,17 @@ module.exports = function(grunt) {
           livereload: lrPort
         },
         files: [ 
-          'css/**/*.css',
+          'src/css/*.css',
           './index.html',
-          'js/*.js' 
+          'src/js/*.js' 
         ]
       },
       js: {
-        files: ['js/*.js'],
+        files: ['src/js/*.js'],
         tasks: ['jshint', 'concat:js', 'uglify']
       },
       css: {
-        files: ['css/*.css'],
+        files: ['src/css/*.css'],
         tasks: ['concat:css', 'cssmin']
       }
     },

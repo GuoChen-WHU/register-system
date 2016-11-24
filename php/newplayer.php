@@ -43,7 +43,7 @@
 		
 		$registerInfo = register();
 		echo "<h1>报名成功</h1>";
-		echo "<p>$stuName 同学, 学号 $stuId, 手机号 $phoNum, 报名参加了以下项目：</p><ul>";
+		echo "<p>$stuName 同学，学号 $stuId ，手机号 $phoNum ， 你报名参加了以下项目：</p><ul>";
 		if ( isset( $registerInfo["sm"] ) ) {
       $drawNum = $registerInfo["sm"];
 			echo "<li>男单 (抽签号：$drawNum)</li>";
@@ -68,7 +68,19 @@
 			echo "<li>混双  搭档：$par (抽签号：$drawNum)</li>";
 		}
 		echo "</ul>";
-    echo "<p>关于抽签的<a href=\"../explain.html\">说明</a></p>";
+    echo "<h3>关于小组赛抽签的说明</h3>";
+    echo "<p>
+        选手报名每个项目时会随机分配到一个三位数的抽签号，报名截止后，将依据此抽签号进行小组赛的分组：
+      </p>
+      <p>
+        1、所有选手按照抽签号升序排序；
+      </p>
+      <p>  
+        2、根据每个小组的人数将选手们依次分入各组（每个小组人数将根据报名情况确定）；
+      </p>
+      <p>  
+       3、分组情况和具体赛程将于12月10日公布，敬请关注。
+      </p>";
 		
 	} catch ( Exception $e ) {
 		echo "<h1>出错啦</h1>";
