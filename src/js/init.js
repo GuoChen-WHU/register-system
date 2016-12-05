@@ -52,11 +52,19 @@
   }
 
   function disableItem() {
+    // 使选择项目的两个select不可用
     var selects = $('.item-select');
-    selects.val("");
+    selects.val(null);
     selects.attr('disabled', true );
     selects.css('background-color', '#eee');
+
+    // 点击填写个人信息界面的下拉按钮，会跳过选择报名项目一节
     $('#js-toItem')[0].hash = '#confirm';
+
+    // 该隐藏的都隐藏，包括选择项目一节的搭档信息填写框和确认一节的
+    // 项目、搭档信息框
+    //$('.partner-info').addClass('ng-hide');
+    //$('.js-item-info').addClass('ng-hide');
   }
 
   function setType( type ) {
@@ -79,30 +87,28 @@
     $('#modal-submit').modal( 'show' );
     // 强行让进度条跑一会儿 =_= 这么好看的进度条
     setTimeout( submitForm, 1000);
-
-    function submitForm() {
-      var url = '';
-      if ( $('#js-type')[0].value === "player") {
-        url = 'php/newplayer.php';
-      } else {
-        url = 'php/newreferee.php';
-      }
-
-      try {
-        $.post(url, $('.confirm-form').serialize(), function ( data, status ) {
-          if ( status === 'success') {
-            $('#modal-submit').modal('hide');
-            $('#modal-response .modal-body').html( data );
-            $('#modal-response').modal();
-          } else {
-            throw "服务器好像出错了= =";
-          }
-        });
-      } catch ( err ) {
-        $('#modal-submit .modal-body').html( err.message );
-      }
-    }
-
   });
 
+  function submitForm() {
+    var url = '';
+    if ( $('#js-type')[0].value === "player") {
+      url = 'php/newplayer.php';
+    } else {
+      url = 'php/newreferee.php';
+    }
+
+    try {
+      $.post(url, $('.confirm-form').serialize(), function ( data, status ) {
+        if ( status === 'success') {
+          $('#modal-submit').modal('hide');
+          $('#modal-response .modal-body').html( data );
+          $('#modal-response').modal();
+        } else {
+          throw "服务器好像出错了= =";
+        }
+      });
+    } catch ( err ) {
+      $('#modal-submit .modal-body').html( err.message );
+    }
+  }
 });

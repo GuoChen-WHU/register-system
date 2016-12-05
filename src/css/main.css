@@ -21,7 +21,10 @@ body.modal-open {
 
 .cover {
   position: relative;
+  max-width: 1280px;
   min-height: 100%;
+  margin-right: auto;
+  margin-left: auto;
   padding-top: 70px;
 }
 
@@ -145,6 +148,10 @@ h2:after {
   transition: background-color .5s;
 }
 
+.role:hover {
+  background-color: #f59581;
+}
+
 .role.active {
   background-color: #e57d69; /* #5dcbf5 */
 }
@@ -234,7 +241,7 @@ h2:after {
 .items {
   position: absolute;
   top: 40%;
-  width: 90%;
+  width: 100%;
 }
 
 .item-title {
